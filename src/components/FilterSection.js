@@ -79,7 +79,7 @@ const FilterSection = () => {
             name="company"
             id="company"
             className="filter-company--select"
-            onClick={updateFilterValue}>
+            onChange={updateFilterValue}>
 
             {companyData.map((curElem, index) => {
               return (

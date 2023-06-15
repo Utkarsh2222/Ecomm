@@ -47,6 +47,7 @@ const filterReducer = (state, action) => {
     case "GET_SORT_VALUE":
       // let userSortValue = document.getElementById("sort");
       // let sort_value = userSortValue.options[userSortValue.selectedIndex].value;
+      console.log(action.payload, "####pay");
       return {
         ...state,
         sorting_value: action.payload,
@@ -58,6 +59,7 @@ const filterReducer = (state, action) => {
 
       const { filter_products, sorting_value } = state;
       let tempSortProduct = [...filter_products];
+      console.log(sorting_value, "####");
 
       const sortingProducts = (a, b) => {
         if (sorting_value === "lowest") {
