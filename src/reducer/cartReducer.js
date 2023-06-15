@@ -4,12 +4,12 @@ const cartReducer = (state, action) => {
 
     // tackle the existing product
 
-    let existingProduct = state.cart.find(
+    let existingProduct = state?.cart?.find(
       (curItem) => curItem.id === id + color
     );
 
     if (existingProduct) {
-      let updatedProduct = state.cart.map((curElem) => {
+      let updatedProduct = state?.cart?.map((curElem) => {
         if (curElem.id === id + color) {
           let newAmount = curElem.amount + amount;
 
@@ -41,14 +41,14 @@ const cartReducer = (state, action) => {
 
       return {
         ...state,
-        cart: [...state.cart, cartProduct],
+        cart: [...(state?.cart || []), cartProduct],
       };
     }
   }
 
   // to set the increment and decrement
   if (action.type === "SET_DECREMENT") {
-    let updatedProduct = state.cart.map((curElem) => {
+    let updatedProduct = state?.cart?.map((curElem) => {
       if (curElem.id === action.payload) {
         let decAmount = curElem.amount - 1;
 
@@ -62,13 +62,13 @@ const cartReducer = (state, action) => {
         };
       } else {
         return curElem;
-      } 
+      }
     });
     return { ...state, cart: updatedProduct };
   }
 
   if (action.type === "SET_INCREMENT") {
-    let updatedProduct = state.cart.map((curElem) => {
+    let updatedProduct = state?.cart?.map((curElem) => {
       if (curElem.id === action.payload) {
         let incAmount = curElem.amount + 1;
 
@@ -88,7 +88,7 @@ const cartReducer = (state, action) => {
   }
 
   if (action.type === "REMOVE_ITEM") {
-    let updatedCart = state.cart.filter(
+    let updatedCart = state?.cart?.filter(
       (curItem) => curItem.id !== action.payload
     );
     return {
@@ -135,20 +135,34 @@ const cartReducer = (state, action) => {
   // }
 
   if (action.type === "CART_ITEM_PRICE_TOTAL") {
-    let { total_item, total_price } = state.cart.reduce(
-      (accum, curElem) => {
-        let { price, amount } = curElem;
+    var total_item = 0;
+    var total_price = 0;
 
-        accum.total_item += amount;
-        accum.total_price += price * amount;
+    if (state?.cart) {
+      console.log("adwawf")
+      let { total_item1, total_price1 } = state?.cart?.reduce(
+        (accum, curElem) => {
+          let { price, amount } = curElem;
 
-        return accum;
-      },
-      {
-        total_item: 0,
-        total_price: 0,
-      }
-    );
+          console.log("&&&",curElem, price, amount);
+          accum.total_item1 += amount;
+          accum.total_price1 += price * amount;
+
+          return accum;
+        },
+        {
+          total_item1: 0,
+          total_price1: 0,
+        }
+      );
+      total_item = total_item1;
+      total_price = total_price1;
+
+    } else {
+      total_item = 0;
+      total_price = 0;
+    }
+
     return {
       ...state,
       total_item,
@@ -160,4 +174,3 @@ const cartReducer = (state, action) => {
 };
 
 export default cartReducer;
-
